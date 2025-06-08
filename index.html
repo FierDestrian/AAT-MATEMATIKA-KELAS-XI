@@ -511,24 +511,25 @@ function kirimJawaban() {
   document.getElementById("skor").innerText = skor;
   document.getElementById("nilai").innerText = nilai.toFixed(2);
 
-  const params = new URLSearchParams({
-    nama: nama,
-    skor: skor,
-    nilai: nilai.toFixed(2),
-    jawaban: JSON.stringify(jawaban)
-  });
+  // Set nilai ke form tersembunyi
+  document.getElementById("formNama").value = nama;
+  document.getElementById("formSkor").value = skor;
+  document.getElementById("formNilai").value = nilai.toFixed(2);
+  document.getElementById("formJawaban").value = JSON.stringify(jawaban);
 
-  fetch("https://script.google.com/macros/s/AKfycbz16CttHlTBecXt34d4293mKkpxfJnsutj2FCGiyOX1KbiGVm7V77PToaRw8cupwZmA5A/exec?" + params.toString())
-    .then(response => {
-      if (!response.ok) throw new Error("Gagal kirim data ke Google Sheets.");
-      console.log("Data berhasil dikirim!");
-    })
-    .catch(err => {
-      console.error("Error:", err);
-      alert("Gagal mengirim jawaban. Silakan periksa koneksi atau hubungi guru.");
-    });
+  // Submit form
+  document.getElementById("kirimForm").submit();
 }
 
+
 </script>
+  <form id="kirimForm" action="https://script.google.com/macros/s/AKfycbx1TlAUnmqqAdngttOhT249BfCM8OCETU4CsUM4_WZsTiBudyKjkSvRh2GGMBvJ6jvd/exec" method="GET" target="hidden_iframe" class="hidden">
+  <input type="hidden" name="nama" id="formNama">
+  <input type="hidden" name="skor" id="formSkor">
+  <input type="hidden" name="nilai" id="formNilai">
+  <input type="hidden" name="jawaban" id="formJawaban">
+</form>
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+
 </body>
 </html>
