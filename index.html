@@ -431,7 +431,7 @@ let jawaban = Array(questions.length).fill(null);
 let nama = "";
 
 function mulaiKuis() {
-  nama = document.getElementById("nama").value.trim();
+  nama = document.getElementById("nama").value.trim() + " Kelas XI";
   if (!nama) return alert("Nama wajib diisi!");
   document.getElementById("login").classList.add("hidden");
   document.getElementById("kuis").classList.remove("hidden");
