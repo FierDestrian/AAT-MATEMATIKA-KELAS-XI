@@ -518,7 +518,7 @@ function kirimJawaban() {
     jawaban: JSON.stringify(jawaban)
   });
 
-  fetch("https://script.google.com/macros/s/AKfycbx1TlAUnmqqAdngttOhT249BfCM8OCETU4CsUM4_WZsTiBudyKjkSvRh2GGMBvJ6jvd/exec?" + params.toString())
+  fetch("https://script.google.com/macros/s/AKfycbz16CttHlTBecXt34d4293mKkpxfJnsutj2FCGiyOX1KbiGVm7V77PToaRw8cupwZmA5A/exec?" + params.toString())
     .then(response => {
       if (!response.ok) throw new Error("Gagal kirim data ke Google Sheets.");
       console.log("Data berhasil dikirim!");
