@@ -1,55 +1,61 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Kuis Matematika Kelas XI</title>
-<script>
-  window.MathJax = {
-    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-    svg: { fontCache: 'global' },
-    startup: {
-      typeset: false,
-      ready: () => {
-        MathJax.startup.defaultReady();
-        window.MathJaxReady = true;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASESMEN AKHIR TAHUN (AAT) SMA PASUNDAN TANJUNGSARI KELAS X</title>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' },
+      startup: {
+        typeset: false,
+        ready: () => {
+          MathJax.startup.defaultReady();
+          window.MathJaxReady = true;
+        }
       }
-    }
-  };
-</script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-<style>
-  body { font-family: sans-serif; padding: 20px; max-width: 700px; margin: auto; }
-  .hidden { display: none; }
-  .question-box { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 8px; background: #fafafa; }
-  label { display: block; margin: 6px 0; cursor: pointer; }
-  button { padding: 10px 20px; cursor: pointer; }
-</style>
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; background-color: #fefefe; }
+    .hidden { display: none; }
+    .question-box { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: #fff; }
+    .nav-buttons { margin: 10px 0; display: flex; flex-wrap: wrap; gap: 5px; }
+    .nav-buttons button { padding: 6px 12px; border: none; border-radius: 5px; cursor: pointer; }
+    .not-answered { background-color: #f87171; color: white; }
+    .answered { background-color: #4ade80; color: white; }
+    .btn { margin-top: 20px; padding: 10px 20px; }
+    .header-img { width: 100%; max-height: 200px; object-fit: cover; margin-bottom: 20px; }
+    textarea { width: 100%; min-height: 100px; margin-top: 10px; }
+  </style>
 </head>
 <body>
-
-<h2>Kuis Matematika Kelas XI</h2>
+<img class="header-img" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi5-_uGV3JJNFVInjBoIpdSr-O2VPmlDF3wgoIeJ8pJwARKSzHaRCYfVGBnyag0SX0CDfVj1PBmWUIr_XC6kQZOJE9SXaJkFLv-GvWP1xkD-k2a55u7RmRyN6DJ1rsAYAmPA5MRFhoyw3kGdOSxI8npUJC5zK2TwStV2oKukQqGVgbzOl1BOvJUCQJzImU/s1600/Foto%20dari%20Fier%20Destrian%20%281%29.jpg" alt="Header AAT">
+<h2>ASESMEN AKHIR TAHUN (AAT)<br>SMA PASUNDAN TANJUNGSARI</h2>
 
 <div id="login">
-  <label>Nama:</label>
-  <input type="text" id="nama" required />
-  <button onclick="mulaiKuis()">Mulai Kuis</button>
+  <label>Nama Anda:</label><br>
+  <input type="text" id="nama" /><br>
+  <button onclick="mulaiKuis()">Mulai</button>
 </div>
 
 <div id="kuis" class="hidden">
-  <p>Nama: <span id="displayNama"></span></p>
+  <p><strong>Nama:</strong> <span id="displayNama"></span></p>
+  <div id="navigasi" class="nav-buttons"></div>
   <div id="soalContainer"></div>
-  <button onclick="kirimJawaban()">Kirim Jawaban</button>
+  <button class="btn" onclick="kirimJawaban()">Kirim Jawaban</button>
 </div>
 
 <div id="hasil" class="hidden">
-  <h3>Skor Anda: <span id="skor"></span></h3>
-  <h3>Nilai Anda: <span id="nilai"></span></h3>
+  <h3>Skor Akhir: <span id="skor"></span></h3>
+  <h3>Nilai: <span id="nilai"></span></h3>
 </div>
 
 <script>
 const questions = [
-   {
+  {
 type: "pg",
     question: "1. Langkah pertama dalam pembuktian dengan induksi matematika adalah ...",
     options: [
@@ -419,7 +425,6 @@ type: "essay",
     question: "5. Buktikan bahwa $1^3 + 2^3 + 3^3 + \\dots + n^3 = \\left(\\frac{n(n+1)}{2}\\right)^2$ dengan induksi matematika.",
     solution: "Basis: n=1 → LHS = 1³ = 1, RHS = (1(1+1)/2)^2 = 1² = 1 ✅\nAsumsikan benar untuk n=k: $\\sum_{i=1}^{k} i^3 = (\\frac{k(k+1)}{2})^2$\nBuktikan untuk k+1: tambahkan $(k+1)^3$ di kedua sisi dan buktikan sama dengan RHS untuk k+1. ✅"
   }
-
 ];
 
 let jawaban = Array(questions.length).fill(null);
@@ -427,34 +432,57 @@ let nama = "";
 
 function mulaiKuis() {
   nama = document.getElementById("nama").value.trim();
-  if (!nama) {
-    alert("Silakan isi nama terlebih dahulu!");
-    return;
-  }
+  if (!nama) return alert("Nama wajib diisi!");
   document.getElementById("login").classList.add("hidden");
   document.getElementById("kuis").classList.remove("hidden");
   document.getElementById("displayNama").innerText = nama;
-  renderSoal();
+  renderNavigasi();
+  renderSemuaSoal();
 }
 
-function renderSoal() {
+function renderNavigasi() {
+  const nav = document.getElementById("navigasi");
+  nav.innerHTML = "";
+  questions.forEach((_, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = i + 1;
+    btn.className = jawaban[i] === null ? "not-answered" : "answered";
+    btn.onclick = () => scrollToSoal(i);
+    nav.appendChild(btn);
+  });
+}
+
+function renderSemuaSoal() {
   const container = document.getElementById("soalContainer");
   container.innerHTML = "";
-  questions.forEach((q, i) => {
-    const div = document.createElement("div");
-    div.className = "question-box";
+  questions.forEach((q, index) => {
+    const box = document.createElement("div");
+    box.className = "question-box";
+    box.id = `soal-${index}`;
 
-    let html = `<strong>${q.question}</strong><br>`;
-    q.options.forEach((opt, idx) => {
-      html += `
-        <label>
-          <input type="radio" name="q${i}" value="${idx}" onchange="pilihJawaban(${i}, ${idx})">
-          ${opt}
-        </label>`;
-    });
+    const qText = document.createElement("div");
+    qText.innerHTML = `<strong>Soal ${index + 1}:</strong> ${q.question}`;
+    box.appendChild(qText);
 
-    div.innerHTML = html;
-    container.appendChild(div);
+    if (q.type === "pg") {
+      q.options.forEach((opt, i) => {
+        const wrapper = document.createElement("div");
+        const optLabel = document.createElement("label");
+        optLabel.innerHTML = `<input type='radio' name='q${index}' value='${i}' onchange='pilih(${index}, ${i})'> ${opt}`;
+        wrapper.appendChild(optLabel);
+        box.appendChild(wrapper);
+      });
+    } else if (q.type === "essay") {
+      const textarea = document.createElement("textarea");
+      textarea.placeholder = "Tulis jawaban Anda di sini...";
+      textarea.oninput = () => {
+        jawaban[index] = textarea.value.trim();
+        renderNavigasi();
+      };
+      box.appendChild(textarea);
+    }
+
+    container.appendChild(box);
   });
 
   if (window.MathJax && MathJax.typeset) {
@@ -462,42 +490,36 @@ function renderSoal() {
   }
 }
 
-function pilihJawaban(qIndex, optionIndex) {
-  jawaban[qIndex] = optionIndex;
+function scrollToSoal(index) {
+  document.getElementById(`soal-${index}`).scrollIntoView({ behavior: 'smooth' });
+}
+
+function pilih(index, value) {
+  jawaban[index] = value;
+  renderNavigasi();
 }
 
 function kirimJawaban() {
-  // Hitung skor
-  let skor = 0;
-  questions.forEach((q, i) => {
-    if (q.type === "pg" && jawaban[i] === q.answer) skor++;
-  });
-  let nilai = skor / 0.35;
+  const skor = questions.reduce((sum, q, i) => sum + (q.type === "pg" && jawaban[i] === q.answer ? 1 : 0), 0);
+  const nilai = skor / 0.35;
 
   document.getElementById("kuis").classList.add("hidden");
   document.getElementById("hasil").classList.remove("hidden");
   document.getElementById("skor").innerText = skor;
   document.getElementById("nilai").innerText = nilai.toFixed(2);
 
-  // Kirim ke Google Apps Script via POST
-  fetch("https://script.google.com/macros/s/AKfycbxENwwciTJTe7RxUh9z6VV-2ZLtoGz84YCAVkg2C3OvUesi0xJtie0swZo0B_vnoC0-wQ/exec", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      nama: nama,
-      skor: skor,
-      nilai: nilai.toFixed(2),
-      jawaban: JSON.stringify(jawaban)
-    })
-  })
-  .then(res => res.json())
-  .then(data => console.log("Data terkirim:", data))
-  .catch(err => {
-    console.error("Error kirim data:", err);
-    alert("Gagal mengirim data, silakan coba lagi.");
+  const params = new URLSearchParams({
+    nama: nama,
+    skor: skor,
+    nilai: nilai.toFixed(2),
+    jawaban: JSON.stringify(jawaban)
   });
+
+  const iframe = document.createElement("iframe");
+  iframe.style.display = "none";
+  iframe.src = "https://script.google.com/macros/s/AKfycbx1TlAUnmqqAdngttOhT249BfCM8OCETU4CsUM4_WZsTiBudyKjkSvRh2GGMBvJ6jvd/exec?" + params.toString();
+  document.body.appendChild(iframe);
 }
 </script>
-
 </body>
 </html>
