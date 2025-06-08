@@ -518,11 +518,17 @@ function kirimJawaban() {
     jawaban: JSON.stringify(jawaban)
   });
 
-  const iframe = document.createElement("iframe");
-  iframe.style.display = "none";
-  iframe.src = "https://script.google.com/macros/s/AKfycbx1TlAUnmqqAdngttOhT249BfCM8OCETU4CsUM4_WZsTiBudyKjkSvRh2GGMBvJ6jvd/exec?" + params.toString();
-  document.body.appendChild(iframe);
+  fetch("https://script.google.com/macros/s/AKfycbx1TlAUnmqqAdngttOhT249BfCM8OCETU4CsUM4_WZsTiBudyKjkSvRh2GGMBvJ6jvd/exec?" + params.toString())
+    .then(response => {
+      if (!response.ok) throw new Error("Gagal kirim data ke Google Sheets.");
+      console.log("Data berhasil dikirim!");
+    })
+    .catch(err => {
+      console.error("Error:", err);
+      alert("Gagal mengirim jawaban. Silakan periksa koneksi atau hubungi guru.");
+    });
 }
+
 </script>
 </body>
 </html>
